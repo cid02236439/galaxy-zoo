@@ -9,9 +9,9 @@ Created on Mon Jul 14 16:00:02 2025
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow.keras import layers, models
 import pandas as pd
-from scipy.optimize import curve_fit
-import scipy.integrate as spi
 import os
 
 training_solutions = pd.read_csv("training_solutions_rev1.csv")
@@ -32,7 +32,10 @@ def display(image):
     cv2.destroyAllWindows()
 
 for i in range(0,3):
-    train = read_image(training_pictures[i])
-    test = read_image(test_pictures[i])
-    #print(f"Displaying image {i+1}: {training_pictures[i]}")
-    display(test)
+    image = read_image(training_pictures[i])
+    params = training_solutions.iloc[i]
+    id = int(training_pictures[i].split('/')[-1].split('.')[0])
+    id2 = int(params['GalaxyID'])
+    if not id == id2:
+        raise ValueError(f"ID mismatch: {id} != {id2}")
+    
